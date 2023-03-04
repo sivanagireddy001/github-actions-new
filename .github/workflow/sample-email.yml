@@ -1,0 +1,36 @@
+name: github actions email notifications 
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: checkout code
+      uses: actions/checkout@v3
+
+    - name: Install Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.10'
+
+    - name: Run Python Script
+      run: python sample.py 
+
+    - name: Send email notification
+      if: always()
+      uses: dawidd6/action-send-mail@v3
+      with:
+          server_address: ${{ secrets.SMTP_ADDRESS }}
+          server_port: ${{ secrets.SMTP_PORT }}
+          username: ${{ secrets.SMTP_USERNAME }}
+          password: ${{ secrets.SMTP_PASSWORD }}
+          subject: ${{ github.job }} job is ${{ job.status }}          
+          body: ${{ github.job }} job in worflow ${{ github.workflow }} of ${{ github.repository }} has ${{ job.status }}          
+          from: ${{ secrets.SMTP_FROM }}
+          to: ${{ secrets.SMTP_FROM }}
+
+          
