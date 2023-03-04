@@ -31,6 +31,5 @@ jobs:
           subject: ${{ github.job }} job is ${{ job.status }}          
           body: ${{ github.job }} job in worflow ${{ github.workflow }} of ${{ github.repository }} has ${{ job.status }}          
           from: ${{ secrets.SMTP_FROM }}
-          to: ${{ secrets.SMTP_FROM }}
+          to: ${{ secrets.SMTP_TO }}
 
-          
